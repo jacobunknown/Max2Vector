@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5%;
+        }
+
+        #svg {
+            border: 1px black solid;
+            width: 70vmin;
+            height: 70vmin;
+
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+    <input type="file" id="fileInput" accept=".maxpat">
+    <div id="svg"></div>
+    <button id="export">Export SVG</button>
     <script src="vector.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
