@@ -86,21 +86,22 @@ function drawSVG(patch) {
         }
 
         if (box.maxclass == "toggle") {
-            const border = 6;
+            const border = box.patching_rect[2] * 0.25;
+            const width = box.patching_rect[2] * 0.08333333333;
 
             let ax = box.patching_rect[0] + border;
             let ay = box.patching_rect[1] + border;
             let bx = ax + box.patching_rect[2] - (border * 2);
             let by = ay + box.patching_rect[3] - (border * 2);
 
-            draw.line(ax, ay, bx, by).stroke(({width: 2, color: messageColor}));
+            draw.line(ax, ay, bx, by).stroke(({width: width, color: messageColor}));
 
             ax = (box.patching_rect[0] + box.patching_rect[2]) - border;
             ay = box.patching_rect[1] + border;
             bx = ax - box.patching_rect[2] + (border * 2);
             by = ay + box.patching_rect[3] - (border * 2);
 
-            draw.line(ax, ay, bx, by).stroke(({width: 2, color: messageColor}));
+            draw.line(ax, ay, bx, by).stroke(({width: width, color: messageColor}));
         }
 
         if (box.maxclass == "newobj") {
