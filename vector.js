@@ -47,6 +47,7 @@ function drawSVG(patch) {
         const box = Box.box;
 
         let fillColor;
+        let textColor = "white";
         let radius = 0;
 
         if (box.maxclass == "message") {
@@ -60,6 +61,9 @@ function drawSVG(patch) {
             fillColor = objectColor;
         } else if (box.maxclass == "function") {
             fillColor = messageColor;
+        } else if (box.maxclass == "comment") {
+            fillColor = "none";
+            textColor = "#B3B3B3FF";
         }
 
         draw.rect(box.patching_rect[2], box.patching_rect[3]).radius(radius).move(box.patching_rect[0], box.patching_rect[1]).fill(fillColor)
@@ -72,7 +76,7 @@ function drawSVG(patch) {
             textOffset = 12;
         }
 
-        draw.text(text).fill("white").font(({family: "Arial Regular", size: 12})).move(box.patching_rect[0] + textOffset, box.patching_rect[1] + (box.patching_rect[3] / 2)).leading(0.7)
+        draw.text(text).fill(textColor).font(({family: "Arial Regular", size: 12})).move(box.patching_rect[0] + textOffset, box.patching_rect[1] + (box.patching_rect[3] / 2)).leading(0.7)
 
         if (box.maxclass == "newobj") {
             let borderSize = 4;
@@ -82,7 +86,8 @@ function drawSVG(patch) {
         }
 
         if (box.maxclass == "button") {
-            draw.circle(box.patching_rect[2] / 1.5).center(box.patching_rect[0] + (box.patching_rect[2] / 2), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill("none").stroke(({width: 2, color: messageColor}));
+            const width = box.patching_rect[2] * 0.08333333333;
+            draw.circle(box.patching_rect[2] / 1.5).center(box.patching_rect[0] + (box.patching_rect[2] / 2), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill("none").stroke(({width: width, color: messageColor}));
         }
 
         if (box.maxclass == "toggle") {
