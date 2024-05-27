@@ -1,5 +1,6 @@
 let draw;
 const input = document.querySelector("#fileInput");
+let patch;
 
 input.addEventListener("change", event => {
     const file = input.files[0]
@@ -7,7 +8,8 @@ input.addEventListener("change", event => {
     let read = new FileReader()
     read.readAsText(file)
     read.onloadend = function() {
-        draw = drawSVG(JSON.parse(read.result).patcher);
+        patch = JSON.parse(read.result).patcher;
+        draw = drawSVG(patch);
     }
 });
 
@@ -20,3 +22,5 @@ document.querySelector("#export").addEventListener("click", function() {
     a.href = 'data:text/html;base64,' + base64doc;
     a.dispatchEvent(e);
 })
+
+loadTheme()

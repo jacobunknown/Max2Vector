@@ -25,13 +25,45 @@
 
             overflow: scroll;
         }
+
+        #top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-    <input type="file" id="fileInput" accept=".maxpat">
+    <div id="top">
+        <input type="file" id="fileInput" accept=".maxpat">
+        <select id="theme">
+            <option value="dark-bronzite.maxtheme">dark-bronzite</option>
+            <option value="dark-graphite.maxtheme">dark-graphite</option>
+            <option value="dark-lazurite.maxtheme">dark-lazurite</option>
+            <option value="deepdark-carbon.maxtheme">deepdark-carbon</option>
+            <option value="deepdark-earth.maxtheme">deepdark-earth</option>
+            <option value="deepdark-slate.maxtheme" selected>deepdark-slate</option>
+            <option value="default.maxtheme">default</option>
+            <option value="light-desert.maxtheme">light-desert</option>
+            <option value="light-ice.maxtheme">light-ice</option>
+            <option value="light-rose.maxtheme">light-rose</option>
+            <option value="light-snow.maxtheme">light-snow</option>
+            <option value="light.maxtheme">light</option>
+            <option value="max7.maxtheme">max7</option>
+            <option value="middark-axinite.maxtheme">middark-axinite</option>
+            <option value="middark-garnet.maxtheme">middark-garnet</option>
+            <option value="middark-hematite.maxtheme">middark-hematite</option>
+            <option value="middark-sodalight.maxtheme">middark-sodalight</option>
+            <option value="middark-ash.maxtheme">middark-ash</option>
+            <option value="middark-sandstone.maxtheme">middark-sandstone</option>
+            <option value="middark-steel.maxtheme">middark-steel</option>
+            <option value="solarized.maxtheme">solarized</option>
+        </select>
+    </div>
     <div id="svg"></div>
     <button id="export">Export SVG</button>
     <script src="vector.js"></script>
+    <script src="themes.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

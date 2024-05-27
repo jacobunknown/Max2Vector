@@ -2,19 +2,24 @@ function lerp(a, b, alpha) {
     return a + alpha * (b - a)
 }
 
-let backgroundColor = "#11181DFF";
-let objectColor = "#1C2229FF";
-let messageColor = "#282C31FF";
-let objectBorderColor = "#707070FF";
-let bubbleOutlineColor = "#B3B3B3FF";
+let locked_bgColor;
+let bgColor;
+let bgFillColor;
+let accentColor;
+let bubble_outlineColor;
 
 const arcSize = 7;
 
 function drawSVG(patch) {
+    document.querySelector("#svg").innerHTML = "";
     console.log(patch)
     const draw = SVG().addTo("#svg").size(patch.rect[2], patch.rect[3])
 
-    draw.rect(patch.rect[2], patch.rect[3]).fill(backgroundColor)
+    bgFillColor = draw.gradient("linear", function(add) {
+        add.stop(0, bgFillColor[0]);
+        add.stop(1, bgFillColor[1]);
+    });
+    draw.rect(patch.rect[2], patch.rect[3]).fill(locked_bgColor)
 
     patch.lines.forEach(Line => {
         const line = Line.patchline;
@@ -40,7 +45,7 @@ function drawSVG(patch) {
             destX += lerp(5, destBox.patching_rect[2] - arcSize - 5, line.source[1] / (destBox.numinlets - 1));
         }
 
-        draw.path("M" + sourceX + " " + sourceY + " C" + sourceX + " " + (sourceY + 15) + " " + destX + " " + (destY - 15) + " " + destX + " " + destY).stroke({width: 3, color: objectBorderColor, linecap: "round"}).fill("none");
+        draw.path("M" + sourceX + " " + sourceY + " C" + sourceX + " " + (sourceY + 15) + " " + destX + " " + (destY - 15) + " " + destX + " " + destY).stroke({width: 3, color: accentColor, linecap: "round"}).fill("none");
     });
 
     patch.boxes.forEach(Box => {
@@ -52,15 +57,15 @@ function drawSVG(patch) {
 
         if (box.maxclass == "message") {
             radius = 5;
-            fillColor = messageColor;
+            fillColor = bgFillColor;
         } else if (box.maxclass == "newobj") {
-            fillColor = objectColor;
+            fillColor = bgColor;
         } else if (box.maxclass == "number") {
-            fillColor = objectColor;
+            fillColor = bgColor;
         } else if (box.maxclass == "button" || box.maxclass == "toggle") {
-            fillColor = objectColor;
+            fillColor = bgColor;
         } else if (box.maxclass == "function") {
-            fillColor = messageColor;
+            fillColor = bgFillColor;
         } else if (box.maxclass == "comment") {
             fillColor = "none";
             textColor = "#B3B3B3FF";
@@ -81,13 +86,13 @@ function drawSVG(patch) {
         if (box.maxclass == "newobj") {
             let borderSize = 4;
 
-            draw.rect(box.patching_rect[2], borderSize).fill(objectBorderColor).move(box.patching_rect[0], box.patching_rect[1])
-            draw.rect(box.patching_rect[2], borderSize).fill(objectBorderColor).move(box.patching_rect[0], (box.patching_rect[1] + box.patching_rect[3]) - borderSize)
+            draw.rect(box.patching_rect[2], borderSize).fill(accentColor).move(box.patching_rect[0], box.patching_rect[1])
+            draw.rect(box.patching_rect[2], borderSize).fill(accentColor).move(box.patching_rect[0], (box.patching_rect[1] + box.patching_rect[3]) - borderSize)
         }
 
         if (box.maxclass == "button") {
             const width = box.patching_rect[2] * 0.08333333333;
-            draw.circle(box.patching_rect[2] / 1.5).center(box.patching_rect[0] + (box.patching_rect[2] / 2), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill("none").stroke(({width: width, color: messageColor}));
+            draw.circle(box.patching_rect[2] / 1.5).center(box.patching_rect[0] + (box.patching_rect[2] / 2), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill("none").stroke(({width: width, color: bgFillColor}));
         }
 
         if (box.maxclass == "toggle") {
@@ -99,14 +104,14 @@ function drawSVG(patch) {
             let bx = ax + box.patching_rect[2] - (border * 2);
             let by = ay + box.patching_rect[3] - (border * 2);
 
-            draw.line(ax, ay, bx, by).stroke(({width: width, color: messageColor}));
+            draw.line(ax, ay, bx, by).stroke(({width: width, color: bgFillColor}));
 
             ax = (box.patching_rect[0] + box.patching_rect[2]) - border;
             ay = box.patching_rect[1] + border;
             bx = ax - box.patching_rect[2] + (border * 2);
             by = ay + box.patching_rect[3] - (border * 2);
 
-            draw.line(ax, ay, bx, by).stroke(({width: width, color: messageColor}));
+            draw.line(ax, ay, bx, by).stroke(({width: width, color: bgFillColor}));
         }
 
         if (box.maxclass == "newobj") {
@@ -137,14 +142,14 @@ function drawSVG(patch) {
                     x += lerp(5, box.patching_rect[2] - arcSize - 5, i / (box.numoutlets - 1));
                 }
                 
-                clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y).fill(bubbleOutlineColor));
+                clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y).fill(bubble_outlineColor));
             }
-            let rect = draw.rect(box.patching_rect[2], box.patching_rect[3]).fill(bubbleOutlineColor).move(box.patching_rect[0], box.patching_rect[1]);
+            let rect = draw.rect(box.patching_rect[2], box.patching_rect[3]).fill(bubble_outlineColor).move(box.patching_rect[0], box.patching_rect[1]);
             rect.clipWith(clip);
         }
 
         if (box.maxclass == "number") {
-            draw.polygon("0,0 6,6 0,12").center(box.patching_rect[0] + (7), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill(objectBorderColor);
+            draw.polygon("0,0 6,6 0,12").center(box.patching_rect[0] + (7), box.patching_rect[1] + (box.patching_rect[3] / 2)).fill(accentColor);
         }
     });
     return draw
