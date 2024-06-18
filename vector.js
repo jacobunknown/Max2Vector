@@ -115,7 +115,7 @@ function drawSVG(patch) {
         }
 
         if (box.maxclass == "newobj") {
-            let clip = draw.clip();
+            //let clip = draw.clip();
             for (let i = 0; i < box.numinlets; i++) {
                 let x = box.patching_rect[0];
                  y = box.patching_rect[1];
@@ -128,7 +128,7 @@ function drawSVG(patch) {
                     x += lerp(5, box.patching_rect[2] - arcSize - 5, i / (box.numinlets - 1));
                 }
 
-                clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y));
+                //clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y));
             }
             for (let i = 0; i < box.numoutlets; i++) {
                 let x = box.patching_rect[0];
@@ -142,10 +142,12 @@ function drawSVG(patch) {
                     x += lerp(5, box.patching_rect[2] - arcSize - 5, i / (box.numoutlets - 1));
                 }
                 
-                clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y).fill(patcher_io_unconnected));
+                //clip.add(draw.circle(arcSize).center(x + (arcSize / 2), y).fill(patcher_io_unconnected));
             }
+            /*
             let rect = draw.rect(box.patching_rect[2], box.patching_rect[3]).fill(patcher_io_unconnected).move(box.patching_rect[0], box.patching_rect[1]);
             rect.clipWith(clip);
+            */
         }
 
         if (box.maxclass == "number") {
